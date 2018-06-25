@@ -2,6 +2,13 @@
 
 Run a specific version of Mobile Core on a local OpenShift instance.
 
+<p align="center">
+	<br>
+	<img width="700" src="mcup.svg">
+	<br>
+	<br>
+</p>
+
 ## Compatibility
 
 This module has only been tested on macOS.
@@ -11,6 +18,7 @@ This module has only been tested on macOS.
 `mcup` will automatically check prerequisites and instruct you if anything needs
 to be installed, but here's a list of what it will check for you:
 
+* Node.js 6.14+
 * Docker 17.09-ce or newer
 * Python 2.7+
 * Ansible 2.4+
@@ -19,7 +27,7 @@ to be installed, but here's a list of what it will check for you:
 
 ## Installation & Usage
 
-Not currently, available on npm so you'll need to do the following:
+Not currently available on npm so you'll need to do the following:
 
 ```
 $ git clone git@github.com:evanshortiss/mcup.git
@@ -28,11 +36,12 @@ $ npm install
 $ npm link
 ```
 
-Next simply run the `mcup up` command. It will prompt you for your sudo
-password after the "Unpack Release" step has completed:
+Next run the `mcup up` command and pass the `dockeruser` and `dockerpass`
+arguments, or set your Docker Hub username and password in `DOCKERHUB_USER`
+and `DOCKERHUB_PASS` environment variables. It will prompt you for your sudo
+password after the "Unpack Release" step has completed.
 
 ```
-# You can also pass these using --dockeruser and --dockerpass arguments
 $ export DOCKERHUB_USER=yourusername
 $ export DOCKERHUB_PASS=yourpassword
 
