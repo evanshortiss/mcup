@@ -14,19 +14,26 @@ program
   )
   .option(
     '-t, --tag <s>',
-    'Mobile Core tag to deploy. Defaults to the most recent tag.'
+    'Specifies a Mobile Core tag to deploy.'
+  )
+  .option(
+    '-b, --branch <s>',
+    'Deploys a specific branch Mobile Core by using the master branch.'
   )
 
 program.parse(process.argv)
 
 const opts: up.CommandOptions = {
   tag: program.tag,
+  branch: program.branch,
   dockerpass: program.dockerpass || process.env.DOCKERHUB_USER,
   dockeruser: program.dockerpass || process.env.DOCKERHUB_PASS
 }
 
-if (!opts.dockerpass || !opts.dockeruser) {
-  throw new Error('--dockeruser and --dockerpass are required options')
+if (opts.tag && opts.branch) {
+  throw new Error('--branch and --tag cannot be used together, pass either branch or tag')
+} else if (!opts.dockerpass || !opts.dockeruser) {
+  throw new Error('--dockeruser and --dockerpass are required, or DOCKERHUB_USER and DOCKERHUB_PASS environment variables must be set')
 } else {
   up.run(opts as up.FuncOptions)
 }

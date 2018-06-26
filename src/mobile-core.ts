@@ -3,9 +3,7 @@ import { homedir } from 'os'
 import {
   createWriteStream,
   existsSync,
-  mkdirSync,
-  write,
-  writeFileSync
+  mkdirSync
 } from 'fs'
 import { ListrTaskWrapper } from 'listr'
 import * as rimraf from 'rimraf'
@@ -36,8 +34,8 @@ function getTempDir() {
  * Get the path to the file for a given release
  * @param release
  */
-function getFilePathToRelease(release: GitHubTag) {
-  return join(getTempDir(), release.tag_name)
+function getFilePathToRelease(release: string) {
+  return join(getTempDir(), release)
 }
 
 /**
@@ -56,7 +54,7 @@ function getExtractionFolderPath() {
  * @param password
  */
 export async function installRelease(
-  release: GitHubTag,
+  release: string,
   task: ListrTaskWrapper,
   dockerUsername: string,
   dockerPassword: string,
@@ -180,9 +178,21 @@ export function clean() {
  * Download the tarball for a specific MCP release
  * @param release
  */
-export function download(release: GitHubTag) {
+export function download(release: GitHubTag|string) {
+  let url: string
+  let name: string
+
+  if (typeof release === 'string') {
+    // We received a branch to download, e.g "master"
+    name = release
+    url = `https://github.com/aerogear/mobile-core/archive/${release}.tar.gz`
+  } else {
+    name = release.tag_name
+    url = release.tarball_url
+  }
+
   const tempDir = getTempDir()
-  const writeFile = `${getFilePathToRelease(release)}.tar.gz`
+  const writeFile = `${getFilePathToRelease(name)}.tar.gz`
 
   if (!existsSync(tempDir)) {
     mkdirSync(tempDir)
@@ -190,7 +200,7 @@ export function download(release: GitHubTag) {
 
   return new Promise((resolve, reject) => {
     request
-      .get(release.tarball_url, {
+      .get(url, {
         headers: {
           'user-agent': 'MCP CLI'
         }
@@ -205,7 +215,7 @@ export function download(release: GitHubTag) {
  * Unpack a downloaded release from a tarball
  * @param release
  */
-export function unpack(release: GitHubTag) {
+export function unpack(release: string) {
   const extractionPath = getExtractionFolderPath()
 
   // Create/delete older files

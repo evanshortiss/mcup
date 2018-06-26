@@ -8,7 +8,7 @@ export function getVersion() {
     .then(result => result.stdout.replace('-ce', ''))
     .catch(e => {
       throw new Error(
-        `Failed to determine Docker version installed. Ensure Docker is installed an running.`
+        `Failed to determine Docker version installed. Ensure Docker is installed and running.`
       )
     })
 }

@@ -42,19 +42,18 @@ and `DOCKERHUB_PASS` environment variables. It will prompt you for your sudo
 password after the "Unpack Release" step has completed.
 
 ```
-$ export DOCKERHUB_USER=yourusername
-$ export DOCKERHUB_PASS=yourpassword
+$ export DOCKERHUB_USER=yourdockerusername
+$ export DOCKERHUB_PASS=yourdockerpassword
 
-$ mcup up
+$ mcup up -b master
 
  ✔ Verify OpenShift 🔴
  ✔ Verify Ansible 🤖
  ✔ Verify Docker 🐳
- ✔ Fetch Mobile Core Releases 🐕
- ✔ Download Release Package 🎁
- ✔ Unpack Release 📦
- ⠸ Launch OpenShift with Mobile Core 📲
-   → Installing Mobile Core with ansible-playbook (might be a good time for ☕ )
+ ✔ Fetching Branch "master" 🐕
+ ✔ Unpack Mobile Core 📦
+ ✔ Launch OpenShift with Mobile Core 📲
 
 📱  OpenShift Origin with Mobile Core is available at: https://192.168.37.1:8443/console/
+
 ```

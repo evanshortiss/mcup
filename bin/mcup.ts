@@ -4,7 +4,7 @@ import program from '../src/program'
 
 program.command(
   'up',
-  'starts an openshift instance running mobile core on this machine'
+  'starts an openshift instance running mobile core. uses the latest release tag by default'
 )
 program.command(
   'releases',
