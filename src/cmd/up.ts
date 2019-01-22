@@ -88,6 +88,8 @@ export async function run(opts: FuncOptions) {
             }
 
             ctx.release = tag.tag_name
+          } else if (!ctx.releases || ctx.releases.length === 0) {
+            throw new Error('no releases were found on GitHub for mobile-core. try using a branch instead')
           } else {
             ctx.release = ctx.releases[0].tag_name
           }
